@@ -1,5 +1,5 @@
 import Link from "next/link";
-import RegisterForm from "../../components/RegisterForm";
+import RegisterForm from "@/components/RegisterForm";
 
 export default function Register() {
   return (
@@ -19,7 +19,7 @@ export default function Register() {
             create any content and use the earning to buy any service or goods
             from the native marketplace.
           </p>
-          <Link href="/login">
+          <Link href="/">
             <button className="bg-[#307777] rounded-md text-white px-4 py-2">
               Login Now!
             </button>

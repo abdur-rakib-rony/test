@@ -1,10 +1,10 @@
 "use server";
 import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { connectToDB } from "@/lib/db";
 import User from "@/models/User";
 import { loginSchema, registerSchema } from "@/zod/schema";
+import { createToken } from "@/lib/auth";
 
 export async function registerUser(formData: FormData) {
   await connectToDB();
@@ -26,11 +26,7 @@ export async function registerUser(formData: FormData) {
     createdAt: new Date(),
   });
 
-  const token = jwt.sign(
-    { userId: newUser._id.toString() },
-    process.env.JWT_SECRET as string,
-    { expiresIn: "1d" }
-  );
+  const token = await createToken({ userId: newUser._id.toString() });
 
   const cookieStore = cookies();
   cookieStore.set("token", token, {
@@ -56,11 +52,7 @@ export async function loginUser(formData: FormData) {
     throw new Error("Invalid credentials");
   }
 
-  const token = jwt.sign(
-    { userId: user._id.toString() },
-    process.env.JWT_SECRET as string,
-    { expiresIn: "1d" }
-  );
+  const token = await createToken({ userId: user._id.toString() });
 
   const cookieStore = cookies();
   cookieStore.set("token", token, {

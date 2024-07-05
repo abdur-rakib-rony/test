@@ -3,7 +3,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { registerUser } from "../actions/auth";
+import { registerUser } from "@/app/actions/auth";
 import { registerSchema } from "@/zod/schema";
 import Link from "next/link";
 
@@ -29,7 +29,7 @@ export default function RegisterForm() {
       });
 
       await registerUser(formData);
-      router.push("/login");
+      router.push("/");
     } catch (error) {
       console.error("Registration error:", error);
     }
@@ -260,7 +260,7 @@ export default function RegisterForm() {
 
       <div className="text-sm text-center mt-2 flex items-center justify-center gap-2">
         <span>Already have an account?</span>
-        <Link href="/login" className="text-[#307777] font-semibold">
+        <Link href="/" className="text-[#307777] font-semibold">
           Login here
         </Link>
       </div>
