@@ -15,7 +15,7 @@ export default function Home() {
           </h1>
           <p className="mb-6 text-white">
             We are the only decentralised social network that gives opportunity
-            to monetise your time even if you are a normal user who doesn't
+            to monetise your time even if you are a normal user who doesn&apos;t
             create any content and use the earning to buy any service or goods
             from the native marketplace.
           </p>
