@@ -10,14 +10,21 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.7.0",
+    "@radix-ui/react-slot": "^1.1.0",
     "bcryptjs": "^2.4.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "embla-carousel-react": "^8.1.6",
     "jose": "^5.6.3",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.400.0",
     "mongoose": "^8.4.4",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -30,6 +37,8 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "postcss": "^8",
+    "prettier": "^3.3.2",
+    "prettier-plugin-tailwindcss": "^0.6.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
