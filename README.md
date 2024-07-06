@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+```markdown
+# Project Name: Design and API Test
 
-## Getting Started
+Live URL: [https://social-media-fr3a.vercel.app/](https://social-media-fr3a.vercel.app/)
 
-First, run the development server:
+## Overview
+This project is a nextjs application that provides users with a platform to interact by posting content, reacting to posts, and commenting on them. The application includes user login and registration functionalities, and a dedicated module for user stories.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
+- User Login and Registration
+- Post List
+- Post Reaction and Comment
+- Story Module
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Task List
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### User Login and Registration
+#### UI Design
+- Create a clean and intuitive UI for user login and registration.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#### API Integration
+- **Login API**: Integrate API to authenticate users.
+- **Registration API**: Integrate API to register new users.
 
-## Learn More
+### Post Functionality
+#### API Integration
+- **Post List**: Integrate API to fetch and display a list of posts.
+- **Post Reaction and Comment**: Integrate API to allow users to react to and comment on posts.
 
-To learn more about Next.js, take a look at the following resources:
+### Story Module
+#### API Creation
+- **Create APIs for Story Module**: Develop APIs to support the story feature, including posting, viewing, and interacting with stories.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technologies Used
+- **Languages**: Nextjs, Typescript
+- **Deployment**: Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Deployment
+The application is deployed on Vercel. You can access it via the live URL: [https://social-media-fr3a.vercel.app/](https://social-media-fr3a.vercel.app/)
