@@ -1,7 +1,7 @@
 ```markdown
 # Project Name: Design and API Test
 
-Live URL: [https://social-media-fr3a.vercel.app/](https://social-media-fr3a.vercel.app/)
+Live URL: https://social-media-fr3a.vercel.app/
 
 ## Overview
 This project is a nextjs application that provides users with a platform to interact by posting content, reacting to posts, and commenting on them. The application includes user login and registration functionalities, and a dedicated module for user stories.
@@ -36,4 +36,4 @@ This project is a nextjs application that provides users with a platform to inte
 - **Deployment**: Vercel
 
 ### Deployment
-The application is deployed on Vercel. You can access it via the live URL: [https://social-media-fr3a.vercel.app/](https://social-media-fr3a.vercel.app/)
+The application is deployed on Vercel. You can access it via the live URL: https://social-media-fr3a.vercel.app/
