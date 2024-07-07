@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 interface TextStoryPreviewProps {
   backgroundColor: string;
   story: string;
-  handleClearImage: () => void;
+  handleClearImage?: () => void;
 }
 
 const TextStoryPreview: React.FC<TextStoryPreviewProps> = ({

@@ -5,6 +5,7 @@ import Story from "@/models/Story";
 import { connectToDB } from "@/lib/db";
 import mongoose from "mongoose";
 import { getCurrentUser } from "@/lib/auth";
+import { loginUserInfo } from "./auth";
 
 export async function createStory(formData: FormData) {
   await connectToDB();
@@ -114,8 +115,8 @@ export async function viewStory(storyId: string) {
 export async function getAllStories() {
   await connectToDB();
 
-  const currentUser = await getCurrentUser();
-  if (!currentUser) {
+  const currentUserInfo = await loginUserInfo();
+  if (!currentUserInfo) {
     throw new Error("User not authenticated");
   }
 
@@ -125,14 +126,23 @@ export async function getAllStories() {
     const stories = await Story.find({
       $or: [
         { visibility: "public" },
-        { userId: currentUser.userId, visibility: "private" },
+        { userId: currentUserInfo.id, visibility: "private" },
       ],
       expiresAt: { $gt: currentTime },
     })
       .sort({ createdAt: -1 })
       .lean();
 
-    return stories;
+    const customizedStories = stories?.map((story) => {
+      return {
+        ...story,
+        userId: currentUserInfo.id,
+        name: currentUserInfo.name,
+        email: currentUserInfo.email,
+      };
+    });
+
+    return customizedStories;
   } catch (error) {
     console.error("Error fetching stories:", error);
     throw new Error("Failed to fetch stories");

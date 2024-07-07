@@ -17,7 +17,7 @@ const CreatePost: FC = () => {
 
         <input
           type="text"
-          placeholder="What's on your mind, Shanto?"
+          placeholder="What&apos;s on your mind, Shanto?"
           className="flex-grow rounded-full bg-gray-100 py-3 pl-4 text-sm outline-none placeholder:text-[#B0B3B8]"
         />
       </div>
