@@ -6,6 +6,13 @@ import { connectToDB } from "@/lib/db";
 import mongoose from "mongoose";
 import { getCurrentUser } from "@/lib/auth";
 import { loginUserInfo } from "./auth";
+import { redirect } from "next/navigation";
+
+interface UserInfo {
+  id: string;
+  name: string;
+  email: string;
+}
 
 export async function createStory(formData: FormData) {
   await connectToDB();
@@ -47,6 +54,7 @@ export async function createStory(formData: FormData) {
   await newStory.save();
 
   revalidatePath("/home");
+  redirect("/home");
 }
 
 export async function reactToStory(storyId: string, reaction: "like" | "love") {
@@ -92,9 +100,6 @@ export async function viewStory(storyId: string) {
     throw new Error("User not authenticated");
   }
 
-  const story = await Story.findById(storyId);
-  if (!story) throw new Error("Story not found");
-
   let objectIdUserId: mongoose.Types.ObjectId;
 
   try {
@@ -103,13 +108,40 @@ export async function viewStory(storyId: string) {
     throw new Error("Invalid User ID");
   }
 
-  if (!story.viewers.includes(objectIdUserId)) {
-    story.viewCount += 1;
-    story.viewers.push(objectIdUserId);
-    await story.save();
+  const updatedStory = await Story.findOneAndUpdate(
+    { 
+      _id: storyId,
+      viewers: { $ne: objectIdUserId }
+    },
+    { 
+      $inc: { viewCount: 1 },
+      $push: { viewers: objectIdUserId }
+    },
+    { new: true, runValidators: true }
+  );
+
+  if (!updatedStory) {
+    return await Story.findById(storyId);
   }
 
   revalidatePath("/home");
+  return updatedStory;
+}
+
+export async function getSingleStoryById(storyId: string) {
+  await connectToDB();
+  try {
+    const story = await viewStory(storyId);
+
+    if (!story) {
+      throw new Error("Story not found");
+    }
+
+    return story;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to fetch story");
+  }
 }
 
 export async function getAllStories() {

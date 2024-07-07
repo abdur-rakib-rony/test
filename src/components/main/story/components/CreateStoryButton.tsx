@@ -1,4 +1,5 @@
 import { createStory } from "@/app/actions/storyActions";
+import SubmitButton from "./SubmitButton";
 
 interface CreateStoryButtonProps {
   story: string;
@@ -22,12 +23,7 @@ const CreateStoryButton: React.FC<CreateStoryButtonProps> = ({
       <input type="hidden" name="visibility" value={visibility} />
       <input type="hidden" name="storyType" value={storyType || ""} />
       <input type="hidden" name="uploadedImage" value={uploadedImage || ""} />
-      <button
-        type="submit"
-        className="w-full rounded bg-teal-600 p-2 text-white"
-      >
-        Create Story
-      </button>
+      <SubmitButton />
     </form>
   );
 };

@@ -44,7 +44,7 @@ const Post = () => {
         alt="Post image"
         width={500}
         height={300}
-        layout="responsive"
+        className="h-full w-full object-cover"
       />
 
       <div className="flex items-center px-4 py-2">
