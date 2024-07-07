@@ -1,0 +1,324 @@
+{
+	"info": {
+		"_postman_id": "5f9f2313-e76d-4157-9379-53a21cd06646",
+		"name": "QP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "29164370",
+		"_collection_link": "https://web.postman.co/workspace/My-Workspace~7b1535f0-fdce-4434-8345-ca27734e20b0/collection/29164370-5f9f2313-e76d-4157-9379-53a21cd06646?action=share&source=collection_link&creator=29164370"
+	},
+	"item": [
+		{
+			"name": "Auth & Registraion",
+			"item": [
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "first_name",
+									"value": "Md Anik ",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "Islam",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "anik.bva@pakizatvl.com",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "0167893691",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "user_role",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "65018b21577b4590853ef574",
+									"type": "text"
+								},
+								{
+									"key": "day",
+									"value": "07",
+									"type": "text"
+								},
+								{
+									"key": "month",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "1997",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{baseurl}}/api/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "anik.ba@pakizatvl.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678As@",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{baseurl}}/api/login"
+					},
+					"response": []
+				},
+				{
+					"name": "userinfo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "anik.ba@pakizatvl.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678As@",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{baseurl}}/api/user-login"
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "anik.ba@pakizatvl.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678As@",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{baseurl}}/api/logout"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "save-post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "start_date",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{baseUrl}}/api/save-post"
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-users-posts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/get-all-users-posts?pageNo=1&pageSize=10",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"get-all-users-posts"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save-reaction-main-post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"post_id\": \"668a2364ead17d6427590020\",\r\n    \"reaction_type\": \"love\",\r\n    \"user_id\": \"6514147376594264b1103efe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/api/save-reaction-main-post"
+					},
+					"response": []
+				},
+				{
+					"name": "save-user-comment-by-post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_id",
+									"value": "660e5df4b22b489af94c8230",
+									"type": "text"
+								},
+								{
+									"key": "post_id",
+									"value": "668a2364ead17d6427590020",
+									"type": "text"
+								},
+								{
+									"key": "comment_name",
+									"value": "sdafasdfasd",
+									"type": "text"
+								},
+								{
+									"key": "image_or_video",
+									"type": "file",
+									"src": "/C:/Users/anik.ba/Downloads/WhatsApp Image 2024-06-27 at 6.26.45 PM.jpeg"
+								}
+							]
+						},
+						"url": "{{baseurl}}/api/save-user-comment-by-post"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "suggestion-list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"connected_user_id\":\"2543254325423\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseurl}}/api/suggestion-list"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTE0MTQ3Mzc2NTk0MjY0YjExMDNlZmUiLCJpYXQiOjE3MjAzMjkzMTcsImV4cCI6MTcyMDM3MjUxN30.a36-4prjWLNv_hbJoq5S3NL5EMY12ZUzFZcCo8Llyb8"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "https://quantumpossibilities.eu:82",
+			"type": "string"
+		}
+	]
+}

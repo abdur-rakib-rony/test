@@ -9,6 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Link from "next/link";
+import { getAllStories } from "@/app/actions/storyActions";
 
 const stories = [
   { src: "/chanchal.jpg", name: "Vish Patil" },
@@ -19,7 +20,16 @@ const stories = [
   { src: "/chanchal.jpg", name: "Akash Boire" },
 ];
 
-const Stories: FC = () => {
+const Stories: FC = async () => {
+  let allstories: any = [];
+  try {
+    allstories = await getAllStories();
+  } catch (error) {
+    console.error("Failed to fetch stories:", error);
+  }
+
+  console.log("allstories", allstories);
+
   return (
     <div className="mx-auto max-w-lg">
       <Carousel
@@ -39,7 +49,7 @@ const Stories: FC = () => {
               />
               <div className="absolute inset-0 bg-black bg-opacity-40"></div>
               <Link
-                href="/home"
+                href="/create-story"
                 className="absolute bottom-2 left-1/2 flex -translate-x-1/2 transform flex-col items-center"
               >
                 <div className="rounded-xl bg-teal-600 p-2">

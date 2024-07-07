@@ -8,7 +8,7 @@ const Navbar = () => {
       {/* Desktop Navbar */}
       <div className="hidden h-[69px] items-center justify-between border-b border-gray-200 bg-white px-4 shadow-md md:flex">
         <div className="flex items-center gap-7">
-          <Link href="/">
+          <Link href="/home">
             <Image src="/qp.png" alt="Web Logo" width={45} height={45} />
           </Link>
           <div className="relative">
