@@ -89,7 +89,7 @@ export default function PostForm() {
           <div className="relative flex-grow">
             <input
               {...register("content")}
-              placeholder="What's on your mind?"
+              placeholder="What&apos;s on your mind?"
               className="w-full rounded-full bg-gray-100 py-3 pl-2 pr-20 text-sm outline-none placeholder:text-[#B0B3B8] md:pl-4"
             />
             <button
