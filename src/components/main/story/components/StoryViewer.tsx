@@ -75,15 +75,15 @@ const StoryViewer: React.FC<any> = ({
     useEffect(() => {
       const checkUserInReactions = (reactions: any, userId: string) => {
         for (let reactionType in reactions) {
-          if (reactions[reactionType].users.includes(userId)) {
+          if (reactions[reactionType]?.users?.includes?.(userId)) {
             return reactionType;
           }
         }
         return null;
       };
-
+    
       setUserReaction(checkUserInReactions(reactions, userId));
-    }, [reactions, userId]);
+    }, [reactions, userId]);    
 
     const handleReaction = async (reaction: "like" | "love") => {
       await reactToStory(storyId, reaction);
