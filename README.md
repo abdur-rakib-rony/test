@@ -1,39 +1,31 @@
-```markdown
-# Project Name: Design and API Test
-
-Live URL: https://social-media-fr3a.vercel.app/
+# Pakiza Technovation Limited - Coding Test
 
 ## Overview
-This project is a nextjs application that provides users with a platform to interact by posting content, reacting to posts, and commenting on them. The application includes user login and registration functionalities, and a dedicated module for user stories.
+This project is a social media application built with Next.js, TypeScript, and MongoDB. The application supports user authentication, creating and interacting with posts and stories, and provides responsive layouts using Tailwind CSS.
 
 ## Features
-- User Login and Registration
-- Post List
-- Post Reaction and Comment
-- Story Module
+- User Registration and Authentication
+- Creating, Editing, Deleting, and Viewing Posts
+- Reacting and Commenting on Posts
+- Creating, Viewing, and Reacting to Stories
+- Responsive Design
+- Secure Cookie Handling for Authentication Tokens
 
-## Task List
+## Tech Stack
+- **Frontend:** Next.js, React, Tailwind CSS
+- **Backend:** Node.js, Express
+- **Database:** MongoDB
+- **Authentication:** JSON Web Tokens (JWT)
+- **State Management:** React Hooks
+- **Form Handling:** React Hook Form
 
-### User Login and Registration
-#### UI Design
-- Create a clean and intuitive UI for user login and registration.
+## Env
+- **MONGO=** your-mongodb-uri
+- **JWT_SECRET=** your-jwt-secret
+- **NODE_ENV=** development | production
 
-#### API Integration
-- **Login API**: Integrate API to authenticate users.
-- **Registration API**: Integrate API to register new users.
+## Git Clone
+git clone [<https://github.com/abdur-rakib-rony/test.git>](https://github.com/abdur-rakib-rony/test.git)
 
-### Post Functionality
-#### API Integration
-- **Post List**: Integrate API to fetch and display a list of posts.
-- **Post Reaction and Comment**: Integrate API to allow users to react to and comment on posts.
 
-### Story Module
-#### API Creation
-- **Create APIs for Story Module**: Develop APIs to support the story feature, including posting, viewing, and interacting with stories.
-
-## Technologies Used
-- **Languages**: Nextjs, Typescript
-- **Deployment**: Vercel
-
-### Deployment
-The application is deployed on Vercel. You can access it via the live URL: https://social-media-fr3a.vercel.app/
+Feel free to clone the project. Thanks
