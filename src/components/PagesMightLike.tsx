@@ -3,12 +3,12 @@ import Image from "next/image";
 
 const PagesMightLike: FC = () => {
   return (
-    <div className="mt-2 hidden rounded-md bg-white p-2 md:block">
+    <div className="mt-4">
       <h3 className="mb-4 mt-2 text-center text-sm font-bold">
         Pages You Might Like
       </h3>
       {[...Array(4)].map((_, i) => (
-        <div key={i} className="mb-4 flex items-center">
+        <div key={i} className="mb-4 flex items-center justify-between">
           <Image
             src="/avatar2.png"
             alt="James Rodigan"

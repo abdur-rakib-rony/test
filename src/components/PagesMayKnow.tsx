@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const PagesMayKnow: FC = () => {
   return (
-    <div className="mt-2 hidden rounded-md bg-white p-2 md:block">
+    <div className="mt-2">
       <div className="flex items-center justify-between">
         <h3 className="mb-4 mt-2 text-sm font-bold">Pages You May Know</h3>
         <Link href="#" className="mb-1 text-[12px] font-medium text-[#307777]">

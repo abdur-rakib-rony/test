@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const NewsCarousel: FC = () => {
   return (
-    <div className="hidden w-[250px] md:block">
+    <div className="w-full">
       <div className="relative">
         <Image
           src="/canon.png"

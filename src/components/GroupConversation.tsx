@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Plus, Search } from "lucide-react";
-import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface Group {
   name: string;
@@ -26,13 +26,10 @@ const GroupConversation: FC = () => {
         {groups.map((group, index) => (
           <li key={index} className="flex items-center">
             {group.avatar ? (
-              <Image
-                src={group.avatar}
-                alt={group.name}
-                width={30}
-                height={30}
-                className="mr-3 rounded-full"
-              />
+              <Avatar className="mr-2 h-8 w-8">
+                <AvatarImage src={group.avatar} alt={group.name} />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
             ) : (
               <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#307777]">
                 <Plus color="#fff" size={16} />

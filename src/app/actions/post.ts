@@ -101,7 +101,16 @@ export async function commentOnPost(postId: string, content: string) {
 
   const userId = currentUser.userId;
 
+  const hasCommented = post.comments.some(
+    (comment: any) => comment.userId.toString() === userId.toString(),
+  );
+
+  if (hasCommented) {
+    throw new Error("You have already commented on this post");
+  }
+
   post.comments.push({
+    userName: user.firstName + " " + user.lastName,
     userId,
     content,
   });
@@ -132,6 +141,36 @@ export async function getAllPosts(page = 1, limit = 10) {
     console.error(error);
     throw new Error("Failed to fetch posts");
   }
+}
+
+export async function deleteComment(postId: string, commentId: string) {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    throw new Error("User not authenticated");
+  }
+
+  const user = await User.findOne({ _id: currentUser.userId });
+  if (!user) throw new Error("User not found");
+
+  const post = await Post.findById(postId);
+  if (!post) throw new Error("Post not found");
+
+  const comment = post.comments.find(
+    (comment: any) => comment._id.toString() === commentId,
+  );
+
+  if (!comment) throw new Error("Comment not found");
+
+  if (comment.userId.toString() !== user._id.toString()) {
+    throw new Error("Not authorized to delete this comment");
+  }
+
+  post.comments = post.comments.filter(
+    (comment: any) => comment._id.toString() !== commentId,
+  );
+  await post.save();
+
+  revalidatePath("/home");
 }
 
 export async function uploadFile(dataUrl: string): Promise<string> {

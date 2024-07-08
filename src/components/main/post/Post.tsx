@@ -1,6 +1,7 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   ThumbsUp,
   Ellipsis,
@@ -8,101 +9,69 @@ import {
   Earth,
   MessageSquare,
   Share2,
+  SendHorizontal,
+  Trash2,
 } from "lucide-react";
-import { deletePost, reactToPost, commentOnPost } from "@/app/actions/post";
-
-interface CurrentUserData {
-  userId: string;
-}
-
-interface User {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  gender: "male" | "female" | "other";
-  phoneNumber: string;
-  user_role: string;
-  birthMonth: string;
-  birthDay: string;
-  birthYear: string;
-}
-
-interface Comment {
-  _id: string;
-  userId: string;
-  content: string;
-  createdAt: string;
-}
-
-interface PostData {
-  _id: string;
-  userId: User;
-  content: string;
-  imageUrl?: string;
-  likes: string[];
-  comments: Comment[];
-  createdAt: string;
-}
-
-interface PostProps {
-  post: PostData;
-}
+import {
+  deletePost,
+  reactToPost,
+  commentOnPost,
+  deleteComment,
+} from "@/app/actions/post";
+import moment from "moment";
 
 const Post = ({ post }: any) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(post.likes.length);
-  const [commentContent, setCommentContent] = useState("");
-  const [comments, setComments] = useState<Comment[]>(post.comments);
-  const [currentUser, setCurrentUser] = useState<CurrentUserData | null>(null);
-
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      const user = { userId: "" };
-      if (user) {
-        setCurrentUser(user);
-        setIsLiked(post.likes.includes(user.userId));
-      }
-    };
-    fetchCurrentUser();
-  }, [post.likes]);
+  const [isLiked, setIsLiked] = useState<any>(false);
+  const [likesCount, setLikesCount] = useState<any>(post.likes.length);
+  const [commentContent, setCommentContent] = useState<any>("");
+  const [comments, setComments] = useState<any>(post.comments);
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
         await deletePost(post._id);
-      } catch (error) {
-        console.error("Failed to delete post:", error);
+      } catch (error: any) {
+        console.error("Failed to delete post:", error.message);
       }
     }
   };
 
   const handleLike = async () => {
-    if (!currentUser) return;
     try {
       await reactToPost(post._id);
       setIsLiked(!isLiked);
       setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
-    } catch (error) {
-      console.error("Failed to react to post:", error);
+    } catch (error: any) {
+      console.error("Failed to react to post:", error.message);
     }
   };
 
-  const handleComment = async (e: React.FormEvent) => {
+  const handleComment = async (e: any) => {
     e.preventDefault();
-    if (commentContent.trim() && currentUser) {
+    if (commentContent.trim()) {
       try {
-        const newCommentData = await commentOnPost(post._id, commentContent);
-        const newComment: Comment = {
-          _id: Date.now().toString(),
-          userId: currentUser.userId,
+        await commentOnPost(post._id, commentContent);
+        const newComment: any = {
           content: commentContent,
           createdAt: new Date().toISOString(),
         };
         setComments([...comments, newComment]);
         setCommentContent("");
-      } catch (error) {
-        console.error("Failed to comment on post:", error);
+      } catch (error: any) {
+        console.error("Failed to comment on post:", error.message);
+      }
+    }
+  };
+
+  const handleDeleteComment = async (commentId: any) => {
+    if (window.confirm("Are you sure you want to delete this comment?")) {
+      try {
+        await deleteComment(post._id, commentId);
+        setComments(
+          comments.filter((comment: any) => comment._id !== commentId),
+        );
+      } catch (error: any) {
+        console.error("Failed to delete comment:", error.message);
       }
     }
   };
@@ -111,18 +80,15 @@ const Post = ({ post }: any) => {
     <div className="mt-4 overflow-hidden bg-white">
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center">
-          <Image
-            src="/avatar2.png"
-            alt={`${post.userId.firstName} ${post.userId.lastName}`}
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
           <div className="ml-3">
             <p className="font-semibold">{`${post.userId.firstName} ${post.userId.lastName}`}</p>
             <div className="flex items-center">
-              <p className="text-sm text-[#393A3B]">
-                {new Date(post.createdAt).toLocaleString()}
+              <p className="text-xs font-medium text-[#757575]">
+                {moment(post.createdAt).fromNow()}
               </p>
               <span className="mx-1 text-[#B0B3B8]">•</span>
               <Earth size={12} color="#B0B3B8" />
@@ -154,7 +120,13 @@ const Post = ({ post }: any) => {
       <div className="flex items-center px-4 py-2">
         <div className="flex items-center">
           <span className="inline-block rounded-full">
-            <ThumbsUp size={16} color={isLiked ? "#1877F2" : "currentColor"} />
+            <Image
+              src="/like.png"
+              alt="like logo"
+              width={100}
+              height={100}
+              className="h-full w-full object-cover"
+            />
           </span>
           <span className="ml-2 text-sm text-gray-600">{likesCount}</span>
         </div>
@@ -182,24 +154,52 @@ const Post = ({ post }: any) => {
           Share
         </button>
       </div>
-      {/*
-      <form onSubmit={handleComment} className="px-4 py-2">
+
+      <form
+        onSubmit={handleComment}
+        className="mt-2 flex items-center justify-between gap-4 rounded-full bg-gray-50 px-4 py-2"
+      >
         <input
           type="text"
           value={commentContent}
           onChange={(e) => setCommentContent(e.target.value)}
           placeholder="Write a comment..."
-          className="w-full rounded-full border border-gray-300 px-4 py-2"
+          className="w-full rounded-full border px-4 py-2 text-sm text-gray-600 outline-none"
         />
+        <button className="rounded-md bg-[#307777] p-2 text-sm text-white">
+          <SendHorizontal size={20} />
+        </button>
       </form>
 
       <div className="px-4 py-2">
-        {comments.map((comment) => (
-          <div key={comment._id} className="mb-2">
-            <strong>{comment.userId}</strong>: {comment.content}
+        {comments?.length > 0 && (
+          <div className="space-y-4">
+            <h1 className="text-sm font-semibold">All Comments</h1>
+            {comments.map((comment: any) => (
+              <div className="flex items-start" key={comment._id}>
+                <Avatar className="mr-2">
+                  <AvatarImage src="https://github.com/shadcn.png" alt="user" />
+                  <AvatarFallback>User</AvatarFallback>
+                </Avatar>
+                <div className="flex-grow rounded-md bg-[#F0F2F5] p-2.5">
+                  <h2 className="text-sm font-semibold text-gray-800">
+                    {comment.userName}
+                  </h2>
+                  <p className="mt-1 text-xs text-gray-600">
+                    {comment.content}
+                  </p>
+                </div>
+                {/* <button
+                  onClick={() => handleDeleteComment(comment._id)}
+                  className="ml-2 text-red-500 hover:text-red-700"
+                >
+                  <Trash2 size={16} />
+                </button> */}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>*/}
+        )}
+      </div>
     </div>
   );
 };

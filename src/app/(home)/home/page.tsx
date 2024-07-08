@@ -10,12 +10,12 @@ import Sidebar from "@/components/Sidebar";
 
 const HomePage: FC = () => {
   return (
-    <div className="flex min-h-screen flex-col lg:flex-row">
+    <div className="mt-2.5 flex flex-grow gap-4">
       <Sidebar />
       <GroupPages />
       <MainSection />
-      <div className="mt-4 w-full rounded-md bg-white p-2.5 lg:mt-2 lg:w-72  hidden md:block">
-        <SponsoredSection padding="0" rounded="none" />
+      <div className="scrollbar-hide hidden h-[calc(100vh-4rem)] overflow-y-auto rounded-md bg-white p-2.5 lg:block lg:w-1/5 lg:min-w-[250px]">
+        <SponsoredSection />
         <hr />
         <FriendRequests />
         <hr />

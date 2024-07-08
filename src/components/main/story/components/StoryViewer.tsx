@@ -1,95 +1,123 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { IStory } from "@/models/Story";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import moment from "moment";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ThumbsUp, Heart } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { reactToStory } from "@/app/actions/storyActions";
+import Emojies from "./Emojies";
 
-interface SerializedStory extends Omit<IStory, "_id" | "userId" | "viewers"> {
-  _id: string;
-  userId: string;
-  viewers: string[];
-  name: string;
-  email: string;
-}
-
-interface StoryViewerProps {
-  stories: SerializedStory[];
-  isOpen: boolean;
-  onClose: () => void;
-  initialStoryIndex: number;
-}
-
-const StoryViewer: React.FC<StoryViewerProps> = ({
+const StoryViewer: React.FC<any> = ({
   stories,
   isOpen,
   onClose,
   initialStoryIndex,
 }) => {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(initialStoryIndex);
+  const [progress, setProgress] = useState(100);
 
   useEffect(() => {
     setCurrentStoryIndex(initialStoryIndex);
   }, [initialStoryIndex]);
 
   useEffect(() => {
-    if (isOpen) {
-      const timer = setTimeout(() => {
-        goToNext();
-      }, 60000);
+    setProgress(100);
+  }, [currentStoryIndex]);
 
-      return () => clearTimeout(timer);
+  useEffect(() => {
+    if (isOpen) {
+      const interval = setInterval(() => {
+        setProgress((prevProgress) => {
+          if (prevProgress <= 0) {
+            goToNext();
+            return 100;
+          }
+          return prevProgress - 1;
+        });
+      }, 100);
+
+      return () => clearInterval(interval);
     }
   }, [isOpen, currentStoryIndex]);
 
   const currentStory = stories[currentStoryIndex];
 
   const goToPrevious = () => {
-    setCurrentStoryIndex((prev) => (prev > 0 ? prev - 1 : stories.length - 1));
+    setCurrentStoryIndex((prev: any) =>
+      prev > 0 ? prev - 1 : stories.length - 1,
+    );
+    setProgress(100);
   };
 
   const goToNext = () => {
-    setCurrentStoryIndex((prev) => (prev < stories.length - 1 ? prev + 1 : 0));
+    setCurrentStoryIndex((prev: any) =>
+      prev < stories.length - 1 ? prev + 1 : 0,
+    );
+    setProgress(100);
   };
 
   if (!currentStory) return null;
 
-  const ReactionsComponent: React.FC<{ reactions: any; userId: string }> = ({
-    reactions,
-    userId,
-  }) => {
-    const checkUserInReactions = (reactions: any, userId: string) => {
-      for (let reactionType in reactions) {
-        if (reactions[reactionType].users.includes(userId)) {
-          return reactionType;
+  const ReactionsComponent: React.FC<{
+    reactions: any;
+    userId: string;
+    storyId: string;
+  }> = ({ reactions, userId, storyId }) => {
+    const [userReaction, setUserReaction] = useState<string | null>(null);
+
+    useEffect(() => {
+      const checkUserInReactions = (reactions: any, userId: string) => {
+        for (let reactionType in reactions) {
+          if (reactions[reactionType].users.includes(userId)) {
+            return reactionType;
+          }
         }
-      }
-      return null;
+        return null;
+      };
+
+      setUserReaction(checkUserInReactions(reactions, userId));
+    }, [reactions, userId]);
+
+    const handleReaction = async (reaction: "like" | "love") => {
+      await reactToStory(storyId, reaction);
+      setUserReaction((prev) => (prev === reaction ? null : reaction));
     };
 
-    const userReaction = checkUserInReactions(reactions, userId);
-
     return (
-      <div className="flex space-x-1">
-        {userReaction ? <p>{reactions[userReaction].emoji}</p> : null}
+      <div className="absolute bottom-4 left-4 z-10 flex space-x-2">
+        <button onClick={() => handleReaction("like")}>
+          <ThumbsUp
+            className={
+              userReaction === "like" ? "text-blue-500" : "text-gray-400"
+            }
+          />
+        </button>
+        <button onClick={() => handleReaction("love")}>
+          <Heart
+            className={
+              userReaction === "love" ? "text-red-500" : "text-gray-400"
+            }
+          />
+        </button>
       </div>
     );
   };
 
-  const getUniqueStories = (stories: SerializedStory[]) => {
-    const seenUserIds = new Set<string>();
-    return stories?.filter((story) => {
-      if (seenUserIds.has(story.userId)) {
-        return false;
-      } else {
-        seenUserIds.add(story.userId);
-        return true;
-      }
-    });
-  };
-
-  const uniqueStories = getUniqueStories(stories);
+  const ProgressBar = ({ progress }: any) => (
+    <div className="absolute left-0 top-0 z-20 h-1 w-full bg-[#307777]">
+      <div
+        className="h-full bg-white transition-all duration-100 ease-linear"
+        style={{ width: `${progress}%` }}
+      ></div>
+    </div>
+  );
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -97,39 +125,34 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
         <div className="w-80 bg-white shadow-lg">
           <div className="p-4">
             <h2 className="mb-4 text-xl font-semibold">All stories</h2>
-            <div className="space-y-4">
-              {uniqueStories?.map((story) => (
-                <div
-                  key={story._id}
-                  className="flex flex-col items-center space-x-4"
-                >
-                  <div className="flex items-center gap-2">
-                    <div className="h-12 w-12 rounded-full bg-[#307777] p-0.5">
-                      <Image
-                        src="/avatar.png"
-                        alt="Profile"
-                        width={100}
-                        height={100}
-                        className="h-full w-full rounded-full"
-                      />
-                    </div>
-                    <div className="flex-grow">
-                      <p className="text-sm font-medium">{story?.name}</p>
-                      <p className="text-sm text-gray-500">
+            <div className="scrollbar-hide h-96 space-y-4 overflow-y-auto">
+              {stories?.map((story: any) => (
+                <ul className="mt-6 space-y-6" key={story._id}>
+                  <li className="flex cursor-pointer items-center text-sm">
+                    <span className="relative mr-3 inline-block">
+                      <Avatar className="border-4 border-[#307777]">
+                        <AvatarImage
+                          src="https://github.com/shadcn.png"
+                          alt="@shadcn"
+                        />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                    </span>
+                    <div className="flex flex-col gap-px">
+                      <p>{story?.userId?.firstName}</p>
+                      <p className="text-xs">
                         {moment(story?.createdAt).fromNow()}
                       </p>
+                      <Emojies story={story} />
                     </div>
-                  </div>
-                  <ReactionsComponent
-                    reactions={story.reactions}
-                    userId={story.userId}
-                  />
-                </div>
+                  </li>
+                </ul>
               ))}
             </div>
           </div>
         </div>
         <div className="relative aspect-[9/16] w-full">
+          <ProgressBar progress={progress} />
           {currentStory.type === "text" ? (
             <div
               className="flex h-full w-full items-center justify-center rounded-lg p-4 text-white"
@@ -140,21 +163,26 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
           ) : (
             <Image
               src={currentStory.imageUrl || ""}
-              alt={currentStory.name}
+              alt="story"
               layout="fill"
               objectFit="cover"
               className="rounded-lg"
             />
           )}
+          <ReactionsComponent
+            reactions={currentStory.reactions}
+            userId={currentStory.userId._id}
+            storyId={currentStory._id}
+          />
           <button
             onClick={goToPrevious}
-            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white bg-opacity-50 p-2"
+            className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white bg-opacity-50 p-2"
           >
             <ChevronLeft />
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white bg-opacity-50 p-2"
+            className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white bg-opacity-50 p-2"
           >
             <ChevronRight />
           </button>

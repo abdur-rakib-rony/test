@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Search } from "lucide-react";
 
 interface Contact {
@@ -30,13 +30,10 @@ const ContactSection: FC = () => {
       <ul className="space-y-3 px-2">
         {contacts.map((contact, index) => (
           <li key={index} className="flex items-center">
-            <Image
-              width={30}
-              height={30}
-              src={contact.avatar}
-              alt={contact.name}
-              className="mr-3 rounded-full"
-            />
+            <Avatar className="mr-2 w-8 h-8">
+              <AvatarImage src={contact.avatar} alt={contact.name} />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
             <span className="text-sm font-semibold">{contact.name}</span>
           </li>
         ))}

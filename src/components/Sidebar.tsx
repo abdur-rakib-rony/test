@@ -32,7 +32,7 @@ const navItems: NavItem[] = [
 
 const Sidebar: FC = () => {
   return (
-    <div className="hidden min-w-[235px] bg-white p-4 md:block">
+    <div className="scrollbar-hide hidden h-[calc(100vh-4rem)] overflow-y-auto bg-white p-4 lg:block lg:w-1/5 lg:min-w-[250px]">
       <div className="mb-4 hidden items-center gap-2 lg:flex">
         <Image
           src="/sidebar_avatar.png"

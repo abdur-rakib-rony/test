@@ -4,34 +4,6 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Link from "next/link";
 import StoryViewer from "./StoryViewer";
-import { IStory } from "@/models/Story";
-
-interface SerializedStory
-  extends Omit<
-    IStory,
-    "_id" | "userId" | "expiresAt" | "createdAt" | "viewers" | "reactions"
-  > {
-  _id: string;
-  userId: string;
-  expiresAt: string;
-  createdAt: string;
-  viewers: string[];
-  reactions: {
-    like: SerializedReaction;
-    love: SerializedReaction;
-  };
-}
-
-interface SerializedReaction {
-  emoji: string;
-  count: number;
-  users: string[];
-  _id: string;
-}
-
-interface StoriesProps {
-  allstories: SerializedStory[];
-}
 
 const AllStories: FC<any> = ({ allstories }) => {
   const [isStoryViewerOpen, setIsStoryViewerOpen] = useState(false);
@@ -64,7 +36,7 @@ const AllStories: FC<any> = ({ allstories }) => {
   }, []);
 
   return (
-    <div className="mx-auto max-w-lg">
+    <div className="mx-auto w-full">
       <div className="relative w-full">
         <div
           ref={carouselRef}
@@ -87,7 +59,7 @@ const AllStories: FC<any> = ({ allstories }) => {
               </Link>
             </div>
           </div>
-          {allstories?.map((story: SerializedStory, index: number) => (
+          {allstories?.map((story: any, index: number) => (
             <div key={story._id} className="h-56 w-40 flex-shrink-0 snap-start">
               <div
                 onClick={() => openStoryViewer(index)}
@@ -105,7 +77,7 @@ const AllStories: FC<any> = ({ allstories }) => {
                 ) : (
                   <Image
                     src={story.imageUrl || ""}
-                    alt={story.type}
+                    alt="story"
                     width={192}
                     height={192}
                     className="h-full w-full rounded-lg border object-cover"

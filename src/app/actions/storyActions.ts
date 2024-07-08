@@ -124,13 +124,20 @@ export async function viewStory(storyId: string) {
 export async function getSingleStoryById(storyId: string) {
   await connectToDB();
   try {
-    const story = await viewStory(storyId);
+    const story = await Story.findById(storyId)
+      .populate("userId", "firstName lastName email phoneNumber")
+      .populate("viewers", "firstName lastName email phoneNumber")
+      .populate("reactions.like", "firstName lastName email phoneNumber")
+      .populate("reactions.love", "firstName lastName email phoneNumber")
+      .lean();
 
     if (!story) {
       throw new Error("Story not found");
     }
 
-    return story;
+    await viewStory(storyId);
+
+    return JSON.parse(JSON.stringify(story));
   } catch (error) {
     console.error(error);
     throw new Error("Failed to fetch story");
@@ -156,6 +163,10 @@ export async function getAllStories() {
       expiresAt: { $gt: currentTime },
     })
       .sort({ createdAt: -1 })
+      .populate("userId", "firstName lastName email phoneNumber")
+      .populate("viewers", "firstName lastName email phoneNumber")
+      .populate("reactions.like", "firstName lastName email phoneNumber")
+      .populate("reactions.love", "firstName lastName email phoneNumber")
       .lean();
 
     return JSON.parse(JSON.stringify(stories));

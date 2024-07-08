@@ -8,11 +8,6 @@ interface SponsoredItem {
   url: string;
 }
 
-interface SponsoredSectionProps {
-  padding: string;
-  rounded: string;
-}
-
 const sponsoredItems: SponsoredItem[] = [
   {
     src: "/sponsored2.png",
@@ -28,11 +23,9 @@ const sponsoredItems: SponsoredItem[] = [
   },
 ];
 
-const SponsoredSection: FC<SponsoredSectionProps> = ({ padding, rounded }) => {
+const SponsoredSection: FC = () => {
   return (
-    <div
-      className={`mt-2 p-${padding} rounded-${rounded} hidden bg-white md:block`}
-    >
+    <div className="mt-2">
       <h3 className="mb-4 mt-2 text-sm font-medium">Sponsored</h3>
       {sponsoredItems.map((item, index) => (
         <div key={index} className="mb-4 flex items-center gap-2">

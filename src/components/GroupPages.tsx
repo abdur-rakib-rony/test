@@ -6,13 +6,11 @@ import PagesMayKnow from "./PagesMayKnow";
 
 const GroupPages: FC = () => {
   return (
-    <div className="mt-4 w-full rounded-md lg:ml-2 lg:mt-2 lg:w-64">
-      <div className="overflow-hidden rounded-md">
-        <NewsCarousel />
-        <PagesMightLike />
-        <PagesMayKnow />
-        <SponsoredSection padding="2" rounded="md" />
-      </div>
+    <div className="scrollbar-hide hidden h-[calc(100vh-4rem)] overflow-hidden overflow-y-auto rounded-md bg-white p-2.5 lg:block lg:w-[18%] lg:min-w-[200px]">
+      <NewsCarousel />
+      <PagesMightLike />
+      <PagesMayKnow />
+      <SponsoredSection />
     </div>
   );
 };

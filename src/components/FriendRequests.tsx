@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 
 interface FriendRequestProps {
@@ -8,15 +8,12 @@ interface FriendRequestProps {
 }
 
 const FriendRequest: FC<FriendRequestProps> = ({ name, time }) => (
-  <div className="flex items-center gap-4">
+  <div className="flex items-center gap-2">
     <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
-      <Image
-        src="/avatar.png"
-        alt={name}
-        width={64}
-        height={64}
-        className="h-full w-full rounded-full object-contain"
-      />
+      <Avatar>
+        <AvatarImage src="/avatar.png" alt={name} />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
     </div>
     <div className="flex w-full flex-col items-center gap-2">
       <div className="flex w-full items-center justify-between">
@@ -50,7 +47,7 @@ const FriendRequests: FC = () => {
           See all
         </Link>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-3">
         {requests.map((request, index) => (
           <FriendRequest key={index} name={request.name} time={request.time} />
         ))}

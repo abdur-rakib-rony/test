@@ -8,7 +8,7 @@ const SubmitButton = () => {
   return (
     <button
       type="submit"
-      className="flex w-full items-center justify-center rounded bg-teal-600 p-2 text-white disabled:bg-teal-300"
+      className="flex w-full items-center justify-center rounded bg-[#307777] p-2 text-white"
       disabled={pending}
     >
       {pending ? (

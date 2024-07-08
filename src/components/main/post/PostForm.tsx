@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { createPost } from "@/app/actions/post";
 import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Loader2, SendHorizontal } from "lucide-react";
 
 const schema = z.object({
   content: z.string().min(1, "Post content is required"),
@@ -28,12 +30,15 @@ export default function PostForm() {
     resolver: zodResolver(schema),
   });
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'video') => {
+  const handleFileUpload = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    type: "image" | "video",
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        if (type === 'image') {
+        if (type === "image") {
           setUploadedImage(reader.result as string);
         } else {
           setUploadedVideo(reader.result as string);
@@ -65,52 +70,64 @@ export default function PostForm() {
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      {errors.content && <span>{errors.content.message}</span>}
       <div className="mb-4 bg-white">
-        <div className="flex items-center gap-4 border-b-2 border-gray-100 p-4">
+        {errors.content && (
+          <div className="mb-4 flex items-center justify-center rounded-md bg-red-500 py-2 md:mb-2">
+            <span className="text-sm text-white">
+              {errors.content.message}!
+            </span>
+          </div>
+        )}
+        <div className="mt-2 flex items-center gap-2 md:mt-0 md:gap-4 md:p-4">
           <div className="relative inline-block">
-            <Image
-              src="/avatar2.png"
-              alt="User"
-              width={50}
-              height={50}
-              className="h-14 w-14 rounded-full border"
-            />
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
           </div>
 
-          <input
-            {...register("content")}
-            placeholder="What&apos;s on your mind, Shanto?"
-            className="flex-grow rounded-full bg-gray-100 py-3 pl-4 text-sm outline-none placeholder:text-[#B0B3B8]"
-          />
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="rounded-full border-none bg-[#307777] p-2 text-sm text-white"
-          >
-            {isSubmitting ? "Posting..." : "Post"}
-          </button>
+          <div className="relative flex-grow">
+            <input
+              {...register("content")}
+              placeholder="What's on your mind?"
+              className="w-full rounded-full bg-gray-100 py-3 pl-2 pr-20 text-sm outline-none placeholder:text-[#B0B3B8] md:pl-4"
+            />
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="absolute right-2 top-1/2 -translate-y-1/2 transform rounded-full border-none bg-[#307777] p-2 text-sm text-white"
+            >
+              {isSubmitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <SendHorizontal size={16} />
+              )}
+            </button>
+          </div>
         </div>
-        <div className="flex items-center justify-around p-4">
+
+        <hr className="hidden md:block" />
+        <div className="flex items-center justify-between p-4 md:justify-around">
           <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-[#9FA2A6]">
             <Image src="/photos.png" alt="photos logo" width={24} height={24} />
-            Live Video
-            <input 
-              type="file" 
-              accept="video/*" 
-              className="hidden" 
-              onChange={(e) => handleFileUpload(e, 'video')}
-            />
-          </label>
-          <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-[#9FA2A6]">
-            <Image src="/camera.png" alt="camera logo" width={24} height={24} />
-            Photo/Video
+            Photo
             <input
               type="file"
               accept="image/*"
               ref={fileInputRef}
               className="hidden"
-              onChange={(e) => handleFileUpload(e, 'image')}
+              onChange={(e) => handleFileUpload(e, "image")}
+            />
+          </label>
+          <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-[#9FA2A6]">
+            <Image src="/camera.png" alt="camera logo" width={24} height={24} />
+            Video
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              className="hidden"
+              onChange={(e) => handleFileUpload(e, "image")}
             />
           </label>
           {uploadedImage && (
@@ -121,7 +138,7 @@ export default function PostForm() {
                 width={24}
                 height={24}
               />
-              Image Preview
+              Preview
             </div>
           )}
           {uploadedVideo && (
@@ -142,7 +159,7 @@ export default function PostForm() {
               width={24}
               height={24}
             />
-            Feeling/activity
+            Feeling
           </div>
         </div>
       </div>

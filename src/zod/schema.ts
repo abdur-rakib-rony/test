@@ -8,10 +8,12 @@ export const registerSchema = z.object({
   gender: z.enum(["male", "female", "other"], {
     required_error: "Gender is required",
   }),
-  phoneNumber: z.string().min(10, "Phone number must contain at least 10 digits"),
+  phoneNumber: z
+    .string()
+    .min(10, "Phone number must contain at least 10 digits"),
   birthMonth: z.string().min(1, "Birth month is required"),
   birthDay: z.string().min(1, "Birth day is required"),
-  birthYear: z.string().min(1, "Birth year is required")
+  birthYear: z.string().min(1, "Birth year is required"),
 });
 
 export const loginSchema = z.object({

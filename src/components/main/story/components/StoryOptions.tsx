@@ -26,9 +26,9 @@ const StoryOptions: React.FC<StoryOptionsProps> = ({
   uploadedImage,
 }) => {
   return (
-    <div className="flex h-screen flex-col justify-between bg-white p-4 shadow-md md:w-80">
+    <div className="flex gap-4 h-full md:h-[calc(100vh-4rem)] flex-col justify-between overflow-y-auto bg-white p-4 shadow-md md:w-80">
       <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-lg font-bold">
           {storyType ? "Preview" : "Create Your Story"}
         </h1>
         <div>

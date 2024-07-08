@@ -99,7 +99,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <nav className="flex items-center space-x-6">
+        <nav className="flex items-center space-x-3 sm:space-x-4 lg:space-x-6">
           <Link href="/" className="text-[#307777]">
             <Image src="/home.png" alt="home logo" width={20} height={20} />
           </Link>
@@ -117,7 +117,7 @@ const Navbar = () => {
           </Link>
         </nav>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3 sm:space-x-4 lg:space-x-6">
           <button>
             <Plus size={20} />
           </button>
