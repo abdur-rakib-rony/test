@@ -1,14 +1,17 @@
 import { FC } from "react";
-import CreatePost from "./post/CreatePost";
 import Stories from "./story/Stories";
-import Post from "./post/Post";
+import { Suspense } from 'react'
+import PostList from "./post/PostList";
+import PostForm from "./post/PostForm";
 
 const MainSection: FC = () => {
   return (
     <main className="flex-grow p-4">
-      <CreatePost />
+      <PostForm />
       <Stories />
-      <Post />
+      <Suspense fallback={<div>Loading posts...</div>}>
+        <PostList />
+      </Suspense>
     </main>
   );
 };

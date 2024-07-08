@@ -1,18 +1,11 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import Story from "@/models/Story";
 import { connectToDB } from "@/lib/db";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { getCurrentUser } from "@/lib/auth";
 import { loginUserInfo } from "./auth";
 import { redirect } from "next/navigation";
-
-interface UserInfo {
-  id: string;
-  name: string;
-  email: string;
-}
 
 export async function createStory(formData: FormData) {
   await connectToDB();
@@ -109,15 +102,15 @@ export async function viewStory(storyId: string) {
   }
 
   const updatedStory = await Story.findOneAndUpdate(
-    { 
+    {
       _id: storyId,
-      viewers: { $ne: objectIdUserId }
+      viewers: { $ne: objectIdUserId },
     },
-    { 
+    {
       $inc: { viewCount: 1 },
-      $push: { viewers: objectIdUserId }
+      $push: { viewers: objectIdUserId },
     },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   );
 
   if (!updatedStory) {
@@ -165,16 +158,7 @@ export async function getAllStories() {
       .sort({ createdAt: -1 })
       .lean();
 
-    const customizedStories = stories?.map((story) => {
-      return {
-        ...story,
-        userId: currentUserInfo.id,
-        name: currentUserInfo.name,
-        email: currentUserInfo.email,
-      };
-    });
-
-    return customizedStories;
+    return JSON.parse(JSON.stringify(stories));
   } catch (error) {
     console.error("Error fetching stories:", error);
     throw new Error("Failed to fetch stories");

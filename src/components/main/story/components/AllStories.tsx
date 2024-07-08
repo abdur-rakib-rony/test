@@ -6,19 +6,34 @@ import Link from "next/link";
 import StoryViewer from "./StoryViewer";
 import { IStory } from "@/models/Story";
 
-interface SerializedStory extends Omit<IStory, "_id" | "userId" | "viewers"> {
+interface SerializedStory
+  extends Omit<
+    IStory,
+    "_id" | "userId" | "expiresAt" | "createdAt" | "viewers" | "reactions"
+  > {
   _id: string;
   userId: string;
+  expiresAt: string;
+  createdAt: string;
   viewers: string[];
-  name: string;
-  email: string;
+  reactions: {
+    like: SerializedReaction;
+    love: SerializedReaction;
+  };
+}
+
+interface SerializedReaction {
+  emoji: string;
+  count: number;
+  users: string[];
+  _id: string;
 }
 
 interface StoriesProps {
   allstories: SerializedStory[];
 }
 
-const AllStories: FC<StoriesProps> = ({ allstories }) => {
+const AllStories: FC<any> = ({ allstories }) => {
   const [isStoryViewerOpen, setIsStoryViewerOpen] = useState(false);
   const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -73,30 +88,27 @@ const AllStories: FC<StoriesProps> = ({ allstories }) => {
             </div>
           </div>
           {allstories?.map((story: SerializedStory, index: number) => (
-            <div
-              key={story?._id}
-              className="h-56 w-40 flex-shrink-0 snap-start"
-            >
+            <div key={story._id} className="h-56 w-40 flex-shrink-0 snap-start">
               <div
                 onClick={() => openStoryViewer(index)}
                 className="h-full w-full cursor-pointer"
               >
-                {story?.type === "text" ? (
+                {story.type === "text" ? (
                   <div
                     className="flex h-full w-full items-center justify-center rounded-lg text-white"
-                    style={{ backgroundColor: story?.backgroundColor }}
+                    style={{ backgroundColor: story.backgroundColor }}
                   >
                     <span className="max-w-[9rem] break-words text-sm font-medium">
-                      {story?.content}
+                      {story.content}
                     </span>
                   </div>
                 ) : (
                   <Image
-                    src={story?.imageUrl || ""}
-                    alt={story?.type}
+                    src={story.imageUrl || ""}
+                    alt={story.type}
                     width={192}
                     height={192}
-                    className="h-full w-full rounded-lg object-cover border"
+                    className="h-full w-full rounded-lg border object-cover"
                   />
                 )}
               </div>

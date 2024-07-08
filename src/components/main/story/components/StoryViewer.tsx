@@ -99,7 +99,10 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
             <h2 className="mb-4 text-xl font-semibold">All stories</h2>
             <div className="space-y-4">
               {uniqueStories?.map((story) => (
-                <div key={story._id} className="flex flex-col items-center space-x-4">
+                <div
+                  key={story._id}
+                  className="flex flex-col items-center space-x-4"
+                >
                   <div className="flex items-center gap-2">
                     <div className="h-12 w-12 rounded-full bg-[#307777] p-0.5">
                       <Image

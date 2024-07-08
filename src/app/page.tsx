@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="bg-[#0B3243]">
       <div className="container mx-auto flex min-h-screen flex-col space-y-4 py-10 md:flex-row md:space-y-0">
-        <div className="flex flex-1 flex-col justify-center px-8">
+        <div className="flex flex-1 flex-col justify-center md:px-8">
           <h1 className="mb-4 text-2xl font-semibold leading-tight text-white md:text-4xl">
             Welcome to the first
             <br />
