@@ -182,7 +182,7 @@ const Post = ({ post }: any) => {
           Share
         </button>
       </div>
-
+      {/*
       <form onSubmit={handleComment} className="px-4 py-2">
         <input
           type="text"
@@ -199,7 +199,7 @@ const Post = ({ post }: any) => {
             <strong>{comment.userId}</strong>: {comment.content}
           </div>
         ))}
-      </div>
+      </div>*/}
     </div>
   );
 };
