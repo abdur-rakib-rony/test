@@ -27,7 +27,10 @@ export async function getCurrentUser() {
   return payload;
 }
 
-export async function createToken(payload: { userId: string }) {
+export async function createToken(payload: {
+  userId: string;
+  fullname: string;
+}) {
   const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })

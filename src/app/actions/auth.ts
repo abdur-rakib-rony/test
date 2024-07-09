@@ -26,7 +26,10 @@ export async function registerUser(formData: FormData) {
     createdAt: new Date(),
   });
 
-  const token = await createToken({ userId: newUser._id.toString() });
+  const token = await createToken({
+    userId: newUser._id.toString(),
+    fullname: newUser.firstName + " " + newUser.lastName,
+  });
 
   const cookieStore = cookies();
   cookieStore.set("token", token, {
@@ -52,7 +55,10 @@ export async function loginUser(formData: FormData) {
     throw new Error("Invalid credentials");
   }
 
-  const token = await createToken({ userId: user._id.toString() });
+  const token = await createToken({
+    userId: user._id.toString(),
+    fullname: user.firstName + " " + user.lastName,
+  });
 
   const cookieStore = cookies();
   cookieStore.set("token", token, {

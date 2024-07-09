@@ -106,6 +106,9 @@ const AllStories: FC<any> = ({ allstories }) => {
                   <p className="rounded-md bg-white px-2 py-px text-xs font-medium text-black">
                     {story?.userId?.firstName && story?.userId?.lastName
                       ? `${story.userId.firstName} ${story.userId.lastName}`
+                          .length > 20
+                        ? `${`${story.userId.firstName} ${story.userId.lastName}`.substring(0, 20)}...`
+                        : `${story.userId.firstName} ${story.userId.lastName}`
                       : "Unknown"}
                   </p>
                 </div>

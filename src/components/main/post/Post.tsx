@@ -19,12 +19,14 @@ import {
   deleteComment,
 } from "@/app/actions/post";
 import moment from "moment";
+import { Loader2 } from "lucide-react";
 
-const Post = ({ post }: any) => {
+const Post = ({ post, currentUser }: any) => {
   const [isLiked, setIsLiked] = useState<any>(false);
   const [likesCount, setLikesCount] = useState<any>(post.likes.length);
   const [commentContent, setCommentContent] = useState<any>("");
   const [comments, setComments] = useState<any>(post.comments);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this post?")) {
@@ -48,18 +50,25 @@ const Post = ({ post }: any) => {
 
   const handleComment = async (e: any) => {
     e.preventDefault();
-    if (commentContent.trim()) {
-      try {
-        await commentOnPost(post._id, commentContent);
-        const newComment: any = {
-          content: commentContent,
-          createdAt: new Date().toISOString(),
-        };
-        setComments([...comments, newComment]);
-        setCommentContent("");
-      } catch (error: any) {
-        console.error("Failed to comment on post:", error.message);
-      }
+    setIsLoading(true);
+
+    if (!commentContent.trim()) {
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      await commentOnPost(post._id, commentContent);
+      const newComment = {
+        content: commentContent,
+        createdAt: new Date().toISOString(),
+      };
+      setComments([...comments, newComment]);
+      setCommentContent("");
+    } catch (error: any) {
+      console.error("Failed to comment on post:", error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -160,8 +169,12 @@ const Post = ({ post }: any) => {
           placeholder="Write a comment..."
           className="w-full rounded-full border px-4 py-2 text-sm text-gray-600 outline-none"
         />
-        <button className="rounded-md bg-[#307777] p-2 text-sm text-white">
-          <SendHorizontal size={20} />
+        <button className="flex items-center justify-center rounded-md bg-[#307777] p-2 text-sm text-white">
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <SendHorizontal size={20} />
+          )}
         </button>
       </form>
 
@@ -177,7 +190,8 @@ const Post = ({ post }: any) => {
                 </Avatar>
                 <div className="flex-grow rounded-md bg-[#F0F2F5] p-2.5">
                   <h2 className="text-sm font-semibold text-gray-800">
-                   {`${comment?.userId?.firstName} ${comment?.userId?.lastName}`}
+                    {currentUser.fullname ||
+                      `${comment?.userId?.firstName || ""} ${comment?.userId?.lastName || ""}`}
                   </h2>
                   <p className="mt-1 text-xs text-gray-600">
                     {comment.content}

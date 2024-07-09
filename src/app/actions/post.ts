@@ -101,13 +101,13 @@ export async function commentOnPost(postId: string, content: string) {
 
   const userId = currentUser.userId;
 
-  const hasCommented = post.comments.some(
-    (comment: any) => comment.userId.toString() === userId.toString(),
-  );
+  // const hasCommented = post.comments.some(
+  //   (comment: any) => comment.userId.toString() === userId.toString(),
+  // );
 
-  if (hasCommented) {
-    throw new Error("You have already commented on this post");
-  }
+  // if (hasCommented) {
+  //   throw new Error("You have already commented on this post");
+  // }
 
   post.comments.push({
     userId,
