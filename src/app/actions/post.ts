@@ -110,7 +110,6 @@ export async function commentOnPost(postId: string, content: string) {
   }
 
   post.comments.push({
-    userName: user.firstName + " " + user.lastName,
     userId,
     content,
   });
