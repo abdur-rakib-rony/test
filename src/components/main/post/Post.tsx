@@ -120,13 +120,7 @@ const Post = ({ post }: any) => {
       <div className="flex items-center px-4 py-2">
         <div className="flex items-center">
           <span className="inline-block rounded-full">
-            <Image
-              src="/like.png"
-              alt="like logo"
-              width={100}
-              height={100}
-              className="h-full w-full object-cover"
-            />
+            <ThumbsUp size={16} />
           </span>
           <span className="ml-2 text-sm text-gray-600">{likesCount}</span>
         </div>

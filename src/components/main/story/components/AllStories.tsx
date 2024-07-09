@@ -4,15 +4,25 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Link from "next/link";
 import StoryViewer from "./StoryViewer";
+import { viewStory } from "@/app/actions/storyActions";
 
 const AllStories: FC<any> = ({ allstories }) => {
   const [isStoryViewerOpen, setIsStoryViewerOpen] = useState(false);
   const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const openStoryViewer = (index: number) => {
+  const handleReaction = async (storyId: string) => {
+    try {
+      await viewStory(storyId);
+    } catch (error) {
+      console.error("Error viewing story:", error);
+    }
+  };
+
+  const openStoryViewer = (index: number, storyId: string) => {
     setSelectedStoryIndex(index);
     setIsStoryViewerOpen(true);
+    handleReaction(storyId);
   };
 
   const scroll = (direction: "left" | "right") => {
@@ -47,7 +57,7 @@ const AllStories: FC<any> = ({ allstories }) => {
             msOverflowStyle: "none",
           }}
         >
-          <div className="w-36 flex-shrink-0 snap-start">
+          <div className="h-56 w-36 flex-shrink-0 snap-start">
             <div className="flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg bg-[#307777]">
               <p className="text-center text-sm font-semibold text-white">
                 Create Story
@@ -62,7 +72,7 @@ const AllStories: FC<any> = ({ allstories }) => {
           {allstories?.map((story: any, index: number) => (
             <div key={story._id} className="h-56 w-40 flex-shrink-0 snap-start">
               <div
-                onClick={() => openStoryViewer(index)}
+                onClick={() => openStoryViewer(index, story._id)}
                 className="h-full w-full cursor-pointer"
               >
                 {story.type === "text" ? (

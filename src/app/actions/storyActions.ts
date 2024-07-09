@@ -37,11 +37,7 @@ export async function createStory(formData: FormData) {
     visibility,
     type: storyType,
     imageUrl: uploadedImage,
-    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-    reactions: {
-      like: { emoji: "👍", count: 0, users: [] },
-      love: { emoji: "❤️", count: 0, users: [] },
-    },
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
   });
 
   await newStory.save();
@@ -70,14 +66,18 @@ export async function reactToStory(storyId: string, reaction: "like" | "love") {
   }
 
   const reactionData = story.reactions[reaction];
-  const userIndex = reactionData.users.indexOf(objectIdUserId);
+  
+  if (reactionData) {
+    reactionData.users = [];
+  }
+  const userIndex = reactionData?.users?.indexOf(objectIdUserId);
 
   if (userIndex === -1) {
     reactionData.count += 1;
-    reactionData.users.push(objectIdUserId);
+    reactionData?.users?.push(objectIdUserId);
   } else {
     reactionData.count -= 1;
-    reactionData.users.splice(userIndex, 1);
+    reactionData?.users?.splice(userIndex, 1);
   }
 
   await story.save();

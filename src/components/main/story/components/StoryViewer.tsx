@@ -1,18 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import moment from "moment";
-import { ChevronLeft, ChevronRight, ThumbsUp, Heart } from "lucide-react";
+import { ChevronLeft, ChevronRight, ThumbsUp, Heart, Eye } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { reactToStory } from "@/app/actions/storyActions";
 import Emojies from "./Emojies";
+import { Badge } from "@/components/ui/badge";
 
 const StoryViewer: React.FC<any> = ({
   stories,
@@ -81,9 +76,9 @@ const StoryViewer: React.FC<any> = ({
         }
         return null;
       };
-    
+
       setUserReaction(checkUserInReactions(reactions, userId));
-    }, [reactions, userId]);    
+    }, [reactions, userId]);
 
     const handleReaction = async (reaction: "like" | "love") => {
       await reactToStory(storyId, reaction);
@@ -124,7 +119,8 @@ const StoryViewer: React.FC<any> = ({
       <DialogContent className="flex w-full p-0">
         <div className="w-80 bg-white shadow-lg">
           <div className="p-4">
-            <h2 className="mb-4 text-xl font-semibold">All stories</h2>
+            <h2 className="text-xl font-semibold">All stories</h2>
+            <Badge><Eye size={15} className="mr-1"/> {currentStory?.viewers?.length || 0}</Badge>
             <div className="scrollbar-hide h-96 space-y-4 overflow-y-auto">
               {stories?.map((story: any) => (
                 <ul className="mt-6 space-y-6" key={story._id}>
