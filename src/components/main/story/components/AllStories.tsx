@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Link from "next/link";
 import StoryViewer from "./StoryViewer";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { viewStory } from "@/app/actions/storyActions";
 
 const AllStories: FC<any> = ({ allstories }) => {
@@ -73,7 +74,7 @@ const AllStories: FC<any> = ({ allstories }) => {
             <div key={story._id} className="h-56 w-40 flex-shrink-0 snap-start">
               <div
                 onClick={() => openStoryViewer(index, story._id)}
-                className="h-full w-full cursor-pointer"
+                className="relative h-full w-full cursor-pointer"
               >
                 {story.type === "text" ? (
                   <div
@@ -91,8 +92,23 @@ const AllStories: FC<any> = ({ allstories }) => {
                     width={192}
                     height={192}
                     className="h-full w-full rounded-lg border object-cover"
+                    style={{ objectFit: "cover", height: "100%" }}
                   />
                 )}
+                <div className="absolute bottom-2 left-1/2 flex w-full -translate-x-1/2 transform flex-col items-center justify-center gap-1">
+                  <Avatar>
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="@shadcn"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <p className="rounded-md bg-white px-2 py-px text-xs font-medium text-black">
+                    {story?.userId?.firstName && story?.userId?.lastName
+                      ? `${story.userId.firstName} ${story.userId.lastName}`
+                      : "Unknown"}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
