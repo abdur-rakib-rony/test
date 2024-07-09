@@ -9,7 +9,7 @@ const ReactionSchema = new Schema({
 
 const StorySchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  content: { type: String, required: true },
+  content: { type: String },
   backgroundColor: { type: String, default: "#FFFFFF" },
   visibility: { type: String, enum: ["public", "private"], default: "public" },
   type: { type: String, enum: ["text", "photo"], required: true },
