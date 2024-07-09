@@ -177,7 +177,7 @@ const Post = ({ post }: any) => {
                 </Avatar>
                 <div className="flex-grow rounded-md bg-[#F0F2F5] p-2.5">
                   <h2 className="text-sm font-semibold text-gray-800">
-                    {`${comment?.userId?.firstName && comment?.userId?.lastName ? `${comment.userId.firstName} ${comment.userId.lastName}` : "Unknown"}`}
+                   {${comment?.userId?.firstName} ${comment?.userId?.lastName}}
                   </h2>
                   <p className="mt-1 text-xs text-gray-600">
                     {comment.content}
