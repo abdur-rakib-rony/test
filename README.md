@@ -1,4 +1,4 @@
-# Pakiza Technovation Limited - Coding Test
+# Social Media Using NextJs & Typescript
 
 ## Overview
 This project is a social media application built with Next.js, TypeScript, and MongoDB. The application supports user authentication, creating and interacting with posts and stories, and provides responsive layouts using Tailwind CSS.
